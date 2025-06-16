@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemorizeGame {
+struct MemorizeGame <CardContent> {
     var cards: Array<Card>
     
     func choose(card: Card) {
@@ -17,7 +17,7 @@ struct MemorizeGame {
     struct Card {
         var isFaceUp: Bool
         var isMatched: Bool
-        var content: String
+        var content: CardContent
         
     }
 }
