@@ -8,9 +8,15 @@
 import SwiftUI
 
 class EmojiMemoryGame { // ViewModel
-    private var model = MemoryGame(numberOfPairsOfCards: 4) { //  index = $0 и тогда $0 in не нужно
-            return ["👻", "🎃", "🕷️", "😈", "💀", "🕸", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"][$0]
+    private static let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"] // static делает их видимыми как глобальную переменную (то есть это теперь EmojiMemoryGame.emojis)  и это дает возможность инициализации в var model. На самом деле это переменные типа или функции типа.
+    
+    private static func createMemoryGame() -> MemoryGame<String> {
+        return MemoryGame(numberOfPairsOfCards: 4) { pairIndex in
+            return emojis[pairIndex]
         }
+    }
+    
+    private var model = createMemoryGame() // EmojiMemoryGame.createMemoryGame
     
     var card: Array<MemoryGame<String>.Card> {
         return model.cards
