@@ -10,13 +10,14 @@ import Foundation
 struct MemoryGame <CardContent> { // Model
    private(set) var cards: Array<Card>
     
-    init(numberOfPairsOfCards: Int) {
+    init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         //        cards = Array<Card>()
         cards = []
         // add numberOfPairsOfCards x 2 cards
-        for _ in 0..<numberOfPairsOfCards { // _ instead of pairIndex
-            cards.append(Card(isFaceUp: false, isMatched: false, content: <#T##CardContent#>))
-            cards.append(Card(isFaceUp: false, isMatched: false, content: <#T##CardContent#>))
+        for pairIndex in 0..<numberOfPairsOfCards {
+            let content = cardContentFactory(pairIndex)
+            cards.append(Card(content: content))
+            cards.append(Card(content: content))
         }
     }
     
@@ -25,9 +26,9 @@ struct MemoryGame <CardContent> { // Model
     }
     
     struct Card {
-        var isFaceUp: Bool
-        var isMatched: Bool
-        var content: CardContent
+        var isFaceUp = false
+        var isMatched = false
+        let content: CardContent
         
     }
 }
