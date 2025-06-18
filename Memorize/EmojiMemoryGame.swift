@@ -11,14 +11,18 @@ class EmojiMemoryGame { // ViewModel
     private static let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"] // static делает их видимыми как глобальную переменную (то есть это теперь EmojiMemoryGame.emojis)  и это дает возможность инициализации в var model. На самом деле это переменные типа или функции типа.
     
     private static func createMemoryGame() -> MemoryGame<String> {
-        return MemoryGame(numberOfPairsOfCards: 4) { pairIndex in
-            return emojis[pairIndex]
+        return MemoryGame(numberOfPairsOfCards: 16) { pairIndex in
+            if emojis.indices.contains(pairIndex) {
+                return emojis[pairIndex]
+            } else {
+                return "⁉️"
+            }
         }
     }
     
     private var model = createMemoryGame() // EmojiMemoryGame.createMemoryGame
     
-    var card: Array<MemoryGame<String>.Card> {
+    var cards: Array<MemoryGame<String>.Card> {
         return model.cards
     }
     
