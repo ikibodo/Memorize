@@ -11,12 +11,16 @@ struct EmojiMemoryGameView: View {
     var viewModel: EmojiMemoryGame = EmojiMemoryGame() // плохое решение, временное
     
     var body: some View {
-
+        VStack {
             ScrollView {
                 cards
             }
-        .padding()
-    }
+            Button("Shuffle") {
+                viewModel.shuffle()
+            }
+        }
+            .padding()
+        }
     
     var cards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {

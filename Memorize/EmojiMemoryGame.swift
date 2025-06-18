@@ -26,6 +26,12 @@ class EmojiMemoryGame { // ViewModel
         return model.cards
     }
     
+    // MARK: - Intents
+    
+    func shuffle() {
+        model.shuffle()
+    }
+    
     func choose(_ card: MemoryGame<String>.Card) { // не должны иметь внешнего имени (оно нужно только если не определено что там с параметром или для читаемости кода)
         model.choose(card) // убрали внешнее имя и поэтому упростили от (card: card)
     }
