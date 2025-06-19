@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemoryGame <CardContent> { // Model
+struct MemoryGame <CardContent> where CardContent: Equatable { // Model
    private(set) var cards: Array<Card>
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
@@ -30,10 +30,15 @@ struct MemoryGame <CardContent> { // Model
         print(cards)
     }
     
-    struct Card {
+    struct Card: Equatable {
+        static func == (lhs: Card, rhs: Card) -> Bool { // объяснение что делает  Equatable под капотом когда MemoryGame <CardContent> where CardContent: Equatable
+            return lhs.isFaceUp == rhs.isFaceUp &&
+            lhs.isMatched == rhs.isMatched &&
+            lhs.content == rhs.content
+        }
+        
         var isFaceUp = true
         var isMatched = false
         let content: CardContent
-        
     }
 }
