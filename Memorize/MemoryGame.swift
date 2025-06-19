@@ -21,8 +21,19 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
         }
     }
     
-    func choose(_ card: Card) {
-        
+    mutating func choose(_ card: Card) {
+//        print("Choose \(card)") // проверили что View передает через ViewModel намерение к Model
+        let chosenIndex = index(of: card)
+        cards[chosenIndex].isFaceUp.toggle() // до добавления chosenIndex была ошибка - различие между типом значения и ссылочным типом - тут передается копия, let card
+    }
+    
+    func index(of card: Card) -> Int {
+        for index in cards.indices {
+            if cards[index].id == card.id {
+                return index
+            }
+        }
+        return 0 // FIXME: bogus!
     }
     
     mutating func shuffle() {
