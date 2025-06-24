@@ -11,7 +11,13 @@ struct AspectVGrig<Item: Identifiable, ItemView: View>: View {
 // struct AspectVGrig<Item>: View where Item: Identifiable { // другой вариант написания того что выше
     var items: [Item]
     var aspectRatio: CGFloat = 1
-    @ViewBuilder var content: (Item) -> ItemView // функция(замыкание), которая принимает элементы и возвращает для него View
+    var content: (Item) -> ItemView // @ViewBuilder можно было и оставить
+    
+    init(_ items: [Item], aspectRatio: CGFloat, @ViewBuilder content: @escaping (Item) -> ItemView) {
+        self.items = items
+        self.aspectRatio = aspectRatio
+        self.content = content
+    }
     
     var body: some View {
         GeometryReader { geometry in

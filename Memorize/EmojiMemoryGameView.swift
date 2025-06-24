@@ -14,27 +14,22 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         VStack {
-                cards
-                    .animation(.default, value: viewModel.cards)
+            cards
+                .animation(.default, value: viewModel.cards)
             Button("Shuffle") {
                 viewModel.shuffle()
             }
         }
-            .padding()
-        }
+        .padding()
+    }
     
     private var cards: some View {
-        AspectVGrig(items: viewModel.cards, aspectRatio: aspectRatio) { card in
-            if card.id.last == "b" {
-                VStack {
-                    CardView(card)
-                        .padding(4)
-                        .onTapGesture {
-                            viewModel.choose(card)
-                        }
-                    Text(card.id)
+        AspectVGrig(viewModel.cards, aspectRatio: aspectRatio) { card in
+            CardView(card)
+                .padding(4)
+                .onTapGesture {
+                    viewModel.choose(card)
                 }
-            }
         }
         .foregroundColor(Color.orange)
     }
@@ -58,7 +53,7 @@ struct CardView: View {
                     .minimumScaleFactor(0.01)
                     .aspectRatio(1, contentMode: .fit)
             }
-                .opacity(card.isFaceUp ? 1 : 0)
+            .opacity(card.isFaceUp ? 1 : 0)
             base.fill()
                 .opacity(card.isFaceUp ? 0 : 1)
         }
