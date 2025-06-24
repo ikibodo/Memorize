@@ -23,13 +23,15 @@ struct EmojiMemoryGameView: View {
             .padding()
         }
     
+    @ViewBuilder // после добавления let можно было сделать return GeometryReader так как cards функция по сути, а можно прописать явно ViewBuilder
     var cards: some View {
+        let aspectRatio: CGFloat = 2/3
         GeometryReader { geometry in
-            let gridItemSize = gridItemWithThatFits(count: viewModel.cards.count, size: geometry.size, atAspectRatio: 2/3)
+            let gridItemSize = gridItemWithThatFits(count: viewModel.cards.count, size: geometry.size, atAspectRatio: aspectRatio)
             LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
                 ForEach(viewModel.cards) { card in
                     CardView(card)
-                        .aspectRatio(2/3, contentMode: .fit)
+                        .aspectRatio(aspectRatio, contentMode: .fit)
                         .padding(4)
                         .onTapGesture {
                             viewModel.choose(card)
