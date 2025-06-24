@@ -11,7 +11,7 @@ struct AspectVGrig<Item: Identifiable, ItemView: View>: View {
 // struct AspectVGrig<Item>: View where Item: Identifiable { // другой вариант написания того что выше
     var items: [Item]
     var aspectRatio: CGFloat = 1
-    var content: (Item) -> ItemView // функция(замыкание), которая принимает элементы и возвращает для него View
+    @ViewBuilder var content: (Item) -> ItemView // функция(замыкание), которая принимает элементы и возвращает для него View
     
     var body: some View {
         GeometryReader { geometry in

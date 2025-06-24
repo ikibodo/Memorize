@@ -25,11 +25,16 @@ struct EmojiMemoryGameView: View {
     
     private var cards: some View {
         AspectVGrig(items: viewModel.cards, aspectRatio: aspectRatio) { card in
-            CardView(card)
-                .padding(4)
-                .onTapGesture {
-                    viewModel.choose(card)
+            if card.id.last == "b" {
+                VStack {
+                    CardView(card)
+                        .padding(4)
+                        .onTapGesture {
+                            viewModel.choose(card)
+                        }
+                    Text(card.id)
                 }
+            }
         }
         .foregroundColor(Color.orange)
     }
