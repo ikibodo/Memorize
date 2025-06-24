@@ -10,12 +10,12 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     
+    private let aspectRatio: CGFloat = 2/3
+    
     var body: some View {
         VStack {
-//            ScrollView {
                 cards
                     .animation(.default, value: viewModel.cards)
-//            }
             Button("Shuffle") {
                 viewModel.shuffle()
             }
@@ -23,9 +23,7 @@ struct EmojiMemoryGameView: View {
             .padding()
         }
     
-    @ViewBuilder // после добавления let можно было сделать return GeometryReader так как cards функция по сути, а можно прописать явно ViewBuilder
-    var cards: some View {
-        let aspectRatio: CGFloat = 2/3
+    private var cards: some View {
         GeometryReader { geometry in
             let gridItemSize = gridItemWithThatFits(count: viewModel.cards.count, size: geometry.size, atAspectRatio: aspectRatio)
             LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
