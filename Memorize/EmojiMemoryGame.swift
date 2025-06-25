@@ -22,10 +22,14 @@ class EmojiMemoryGame: ObservableObject { // ViewModel
         }
     }
     
-   @Published private var model = createMemoryGame()
+    @Published private var model = createMemoryGame()
     
     var cards: Array<Card> {
-        return model.cards
+        model.cards
+    }
+    
+    var color: Color {
+        .orange
     }
     
     // MARK: - Intents
