@@ -8,10 +8,10 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject { // ViewModel
-    private static let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"] // static делает их видимыми как глобальную переменную (то есть это теперь EmojiMemoryGame.emojis)  и это дает возможность инициализации в var model. На самом деле это переменные типа или функции типа.
+    private static let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
     
     private static func createMemoryGame() -> MemoryGame<String> {
-        return MemoryGame(numberOfPairsOfCards: 16) { pairIndex in
+        return MemoryGame(numberOfPairsOfCards: 12) { pairIndex in // если выбрать 1 отобразит 2 пары карт после настройки вью карт
             if emojis.indices.contains(pairIndex) {
                 return emojis[pairIndex]
             } else {
@@ -20,7 +20,7 @@ class EmojiMemoryGame: ObservableObject { // ViewModel
         }
     }
     
-   @Published private var model = createMemoryGame() // EmojiMemoryGame.createMemoryGame
+   @Published private var model = createMemoryGame()
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
@@ -32,7 +32,7 @@ class EmojiMemoryGame: ObservableObject { // ViewModel
         model.shuffle()
     }
     
-    func choose(_ card: MemoryGame<String>.Card) { // не должны иметь внешнего имени (оно нужно только если не определено что там с параметром или для читаемости кода)
-        model.choose(card) // убрали внешнее имя и поэтому упростили от (card: card)
+    func choose(_ card: MemoryGame<String>.Card) {
+        model.choose(card)
     }
 }
