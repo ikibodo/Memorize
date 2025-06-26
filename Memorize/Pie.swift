@@ -14,7 +14,7 @@ struct Pie: Shape {
     var clockwise = true
     
     func path(in rect: CGRect) -> Path {
-        let starеAngle = startAngle - .degrees(90)
+        let startAngle = startAngle - .degrees(90)
         let endAngle = endAngle - .degrees(90)
         
         let center = CGPoint(x: rect.midX, y: rect.midY)
