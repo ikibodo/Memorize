@@ -22,7 +22,14 @@ struct CardView: View {
             Group {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: Constants.lineWidth)
-                Circle()
+                Path { p in
+                    p.move(to: .zero)
+                    p.addLine(to: CGPoint(x: 100, y: 100))
+                }
+                // .stroke(lineWidth: 6) //  .strokeBorder(lineWidth: 6) тут сделать нельзя
+                Pie(endAngle: .degrees(240))
+                //  .strokeBorder(lineWidth: 6) и тут тоже сделать нельзя
+                
                     .opacity(Constants.Pie.opacity)
                     .overlay(
                 Text(card.content)
