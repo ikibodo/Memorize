@@ -29,3 +29,10 @@ struct Cardify: ViewModifier {
         static let lineWidth: CGFloat = 2
     }
 }
+
+extension View {
+    func cardify(isFaceUp: Bool) -> some View {
+//        return self.modifier(Cardify(isFaceUp: isFaceUp))
+        modifier(Cardify(isFaceUp: isFaceUp))
+    }
+}
