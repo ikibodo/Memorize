@@ -9,7 +9,7 @@ import SwiftUI
 import CoreGraphics
 
 struct Pie: Shape {
-    var startAngle: Angle = .zero // same as Angle.zero
+    var startAngle: Angle = .zero
     let endAngle: Angle
     var clockwise = true
     

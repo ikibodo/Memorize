@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct AspectVGrig<Item: Identifiable, ItemView: View>: View {
-// struct AspectVGrig<Item>: View where Item: Identifiable { // другой вариант написания того что выше
     var items: [Item]
     var aspectRatio: CGFloat = 1
-    var content: (Item) -> ItemView // @ViewBuilder можно было и оставить
+    var content: (Item) -> ItemView
     
     init(_ items: [Item], aspectRatio: CGFloat, @ViewBuilder content: @escaping (Item) -> ItemView) {
         self.items = items
@@ -41,7 +40,7 @@ struct AspectVGrig<Item: Identifiable, ItemView: View>: View {
         atAspectRatio aspectRatio: CGFloat
     ) -> CGFloat {
         let count = CGFloat(count)
-        var columnCount = 1.0 // вместо Int
+        var columnCount = 1.0
         repeat {
             let width = size.width / columnCount
             let height = width / aspectRatio
