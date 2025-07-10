@@ -17,12 +17,16 @@ struct EmojiMemoryGameView: View {
         VStack {
             cards
                 .foregroundColor(viewModel.color)
-//                .animation(.default, value: viewModel.cards)
-            Button("Shuffle") {
-                withAnimation {
-                    viewModel.shuffle()
+            HStack {
+                Text("Score: \(viewModel.score)")
+                Spacer()
+                Button("Shuffle") {
+                    withAnimation {
+                        viewModel.shuffle()
+                    }
                 }
             }
+            .font(.largeTitle)
         }
         .padding()
     }

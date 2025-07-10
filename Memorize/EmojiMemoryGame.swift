@@ -22,7 +22,7 @@ class EmojiMemoryGame: ObservableObject { // ViewModel
         }
     }
     
-    @Published private var model = createMemoryGame()
+    @Published private var model = createMemoryGame() // не называй model и viewModel так в лоб в реальном проекте, нейминг должне быть осмысленным, например тут game
     
     var cards: Array<Card> {
         model.cards
@@ -30,6 +30,10 @@ class EmojiMemoryGame: ObservableObject { // ViewModel
     
     var color: Color {
         .orange
+    }
+    
+    var score: Int {
+        model.score
     }
     
     // MARK: - Intents
