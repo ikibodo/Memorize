@@ -49,16 +49,21 @@ struct EmojiMemoryGameView: View {
                 .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                 .onTapGesture {
                     withAnimation {
+                        let scoreBeforeChoosing = viewModel.score
                         viewModel.choose(card)
+                        let scoreChange = viewModel.score - scoreBeforeChoosing
+                        lastScoreChange = (scoreChange, causedByCardId: card.id) // = lastScoreChange = (scoreChange, card.id)
                     }
                 }
         }
     }
     
-    @State private var lastScoreChange: (amount: Int, causedByCardId: Card.ID) = (amount: 0, causedByCardId: "")  // кортеж ака Tuples в полной записи 
+    @State private var lastScoreChange = (0, causedByCardId: "")  // кортеж ака Tuples
     
     private func scoreChange(causedBy card: Card) -> Int {
-        return 0
+        let (amount, id) = lastScoreChange // = let (amount, causedByCardId: id) = lastScoreChange
+        return card.id == id ? amount : 0
+//        return lastScoreChange.1 == card.id ? lastScoreChange.0 : 0 //  lastScoreChange.1 и  lastScoreChange.0 соответствующие элементы кортежа второй и первый - такой синтаксис не рекомендован но возможен в ряде случаев 
     }
 }
 
