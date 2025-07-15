@@ -55,6 +55,8 @@ struct EmojiMemoryGameView: View {
         }
     }
     
+    @State private var lastScoreChange: (amount: Int, causedByCardId: Card.ID) = (amount: 0, causedByCardId: "")  // кортеж ака Tuples в полной записи 
+    
     private func scoreChange(causedBy card: Card) -> Int {
         return 0
     }
