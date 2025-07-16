@@ -18,12 +18,17 @@ struct CardView: View {
     
     var body: some View {
         TimelineView(.animation) { timeline in
-            Pie(endAngle: .degrees(card.bonusPercentRemaining * 360))
-                .opacity(Constants.Pie.opacity)
-                .overlay(cardContents.padding(Constants.Pie.inset))
-                .padding(Constants.inset)
-                .cardify(isFaceUp: card.isFaceUp)
-                .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+            if card.isFaceUp || !card.isMatched {
+                Pie(endAngle: .degrees(card.bonusPercentRemaining * 360))
+                    .opacity(Constants.Pie.opacity)
+                    .overlay(cardContents.padding(Constants.Pie.inset))
+                    .padding(Constants.inset)
+                    .cardify(isFaceUp: card.isFaceUp)
+                    //.transition(.opacity) // непрозрачность это переход по умолчанию, который используется при удалении или добавлении представления в иерархию представлений
+                    .transition(.scale)
+            } else {
+                Color.clear
+            }
         }
     }
     
