@@ -32,7 +32,7 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
                     if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
-                        score += 2
+                        score += 2 + cards[chosenIndex].bonus + cards[potentialMatchIndex].bonus
                     } else {
                         if cards[chosenIndex].hasBeenSeen {
                             score -= 1
@@ -57,6 +57,11 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
         var isFaceUp = false { 
             didSet {
+                if isFaceUp {
+                    startUsingBonusTime()
+                } else {
+                    stopUsingBonusTime()
+                }
                 if oldValue && !isFaceUp {
                     hasBeenSeen = true
                 }
@@ -64,7 +69,13 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
         }
         
         var hasBeenSeen = false
-        var isMatched = false
+        var isMatched = false {
+            didSet {
+                if isMatched {
+                    stopUsingBonusTime()
+                }
+            }
+        }
         let content: CardContent
         
         // MARK: - Bonus Time

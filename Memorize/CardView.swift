@@ -17,7 +17,7 @@ struct CardView: View {
     }
     
     var body: some View {
-        Pie(endAngle: .degrees(240))
+        Pie(endAngle: .degrees(card.bonusPercentRemaining * 360))
             .opacity(Constants.Pie.opacity)
             .overlay(
         Text(card.content)
