@@ -32,7 +32,7 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
                     if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
-                        score += 2
+                        score += 2 + cards[chosenIndex].bonus + cards[potentialMatchIndex].bonus
                     } else {
                         if cards[chosenIndex].hasBeenSeen {
                             score -= 1
@@ -57,6 +57,11 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
         var isFaceUp = false { 
             didSet {
+                if isFaceUp {
+                    startUsingBonusTime()
+                } else {
+                    stopUsingBonusTime()
+                }
                 if oldValue && !isFaceUp {
                     hasBeenSeen = true
                 }
@@ -64,8 +69,49 @@ struct MemoryGame <CardContent> where CardContent: Equatable { // Model
         }
         
         var hasBeenSeen = false
-        var isMatched = false
+        var isMatched = false {
+            didSet {
+                if isMatched {
+                    stopUsingBonusTime()
+                }
+            }
+        }
         let content: CardContent
+        
+        // MARK: - Bonus Time
+        
+        private mutating func startUsingBonusTime() {
+            if isFaceUp && !isMatched && bonusPercentRemaining > 0, lastFaceUpDate == nil {
+                lastFaceUpDate = Date()
+            }
+        }
+        
+        private mutating func stopUsingBonusTime() {
+            pastFaceUpTime = faceUpTime
+            lastFaceUpDate = nil
+        }
+        
+        var bonus: Int {
+            Int(bonusTimeLimit * bonusPercentRemaining)
+        }
+        
+        var bonusPercentRemaining: Double {
+            bonusTimeLimit > 0 ? max(0, bonusTimeLimit - faceUpTime)/bonusTimeLimit : 0
+        }
+        
+        var faceUpTime: TimeInterval {
+            if let lastFaceUpDate {
+                return pastFaceUpTime + Date().timeIntervalSince(lastFaceUpDate)
+            } else {
+                return pastFaceUpTime
+            }
+        }
+        
+        var bonusTimeLimit: TimeInterval = 6
+        
+        var lastFaceUpDate: Date?
+        
+        var pastFaceUpTime: TimeInterval = 0
         
         var id: String
         var debugDescription: String {
