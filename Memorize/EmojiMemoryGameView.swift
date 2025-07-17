@@ -14,6 +14,9 @@ struct EmojiMemoryGameView: View {
     
     private let aspectRatio: CGFloat = 2/3
     private let spacing: CGFloat = 4
+    private let dealAnimation: Animation = .easeInOut(duration: 0.5)
+    private let dealInterval: TimeInterval = 0.15
+    private let deckWidth: CGFloat = 50
     
     var body: some View {
         VStack {
@@ -84,15 +87,13 @@ struct EmojiMemoryGameView: View {
             // deal the cards
             var delay: TimeInterval = 0
             for card in viewModel.cards {
-                withAnimation(Animation.easeInOut(duration: 1).delay(delay)) { // Отличие от лекции - метод .delay(...) применим к Animation, но его нельзя напрямую использовать в withAnimation(animation) как цепочку, потому что withAnimation не возвращает Animation.
+                withAnimation(dealAnimation.delay(delay)) {
                    _ = dealt.insert(card.id)
                 }
-                delay += 0.15
+                delay += dealInterval
             }
         }
     }
-    
-    private let deckWidth: CGFloat = 50
     
     private func choose(_ card: Card) {
         withAnimation {
