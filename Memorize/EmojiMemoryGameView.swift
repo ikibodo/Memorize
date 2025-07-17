@@ -48,18 +48,13 @@ struct EmojiMemoryGameView: View {
             if isDealt(card) {
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    //.transition(.identity) // убрала matchedGeometryEffect - никакого перехода
-                    .transition(.asymmetric(insertion: .identity, removal: .identity)) // не переопределяет matchedGeometryEffect
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
                     .padding(spacing)
                     .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                     .zIndex(scoreChange(causedBy: card) != 0 ? 100 : 0)
                     .onTapGesture {
                         choose(card)
                     }
-//                    .transition(.offset(
-//                        x: CGFloat.random(in: -1000...1000),
-//                        y: CGFloat.random(in: -1000...1000)
-//                    ))
             }
         }
     }
@@ -81,22 +76,23 @@ struct EmojiMemoryGameView: View {
             ForEach(undealtCards) { card in
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    //.transition(.identity)
                     .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
         }
         .frame(width: deckWidth, height: deckWidth / aspectRatio)
         .onTapGesture {
             // deal the cards
-            withAnimation(.easeInOut(duration: 2)) {
-                for card in viewModel.cards {
-                    dealt.insert(card.id) // дек исчезает когда все карты розданы, становится невидим потому что непрозрачность дефолтная
+            var delay: TimeInterval = 0
+            for card in viewModel.cards {
+                withAnimation(Animation.easeInOut(duration: 1).delay(delay)) { // Отличие от лекции - метод .delay(...) применим к Animation, но его нельзя напрямую использовать в withAnimation(animation) как цепочку, потому что withAnimation не возвращает Animation.
+                   _ = dealt.insert(card.id)
                 }
+                delay += 0.15
             }
         }
     }
     
-    private let deckWidth: CGFloat = 50 // будь внимателен если выбрал в frame конкретный размер а не относительный (не рекомендовано в общем случае)
+    private let deckWidth: CGFloat = 50
     
     private func choose(_ card: Card) {
         withAnimation {
