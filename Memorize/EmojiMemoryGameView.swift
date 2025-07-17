@@ -17,10 +17,11 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         VStack {
-            cards
-                .foregroundColor(viewModel.color)
+            cards.foregroundColor(viewModel.color)
             HStack {
                 score
+                Spacer()
+                deck.foregroundColor(viewModel.color)
                 Spacer()
                 shuffle
             }
@@ -46,24 +47,19 @@ struct EmojiMemoryGameView: View {
         AspectVGrig(viewModel.cards, aspectRatio: aspectRatio) { card in
             if isDealt(card) {
                 CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    //.transition(.identity) // убрала matchedGeometryEffect - никакого перехода
+                    .transition(.asymmetric(insertion: .identity, removal: .identity)) // не переопределяет matchedGeometryEffect
                     .padding(spacing)
                     .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                     .zIndex(scoreChange(causedBy: card) != 0 ? 100 : 0)
                     .onTapGesture {
                         choose(card)
                     }
-                    .transition(.offset(
-                        x: CGFloat.random(in: -1000...1000),
-                        y: CGFloat.random(in: -1000...1000)
-                    ))
-            }
-        }
-        .onAppear {
-            // deal the cards
-            withAnimation(.easeInOut(duration: 2)) {
-                for card in viewModel.cards {
-                    dealt.insert(card.id)
-                }
+//                    .transition(.offset(
+//                        x: CGFloat.random(in: -1000...1000),
+//                        y: CGFloat.random(in: -1000...1000)
+//                    ))
             }
         }
     }
@@ -78,7 +74,29 @@ struct EmojiMemoryGameView: View {
         viewModel.cards.filter { !isDealt($0) }
     }
     
+    @Namespace private var dealingNamespace // создает пространство имен
     
+    private var deck: some View {
+        ZStack {
+            ForEach(undealtCards) { card in
+                CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    //.transition(.identity)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+        }
+        .frame(width: deckWidth, height: deckWidth / aspectRatio)
+        .onTapGesture {
+            // deal the cards
+            withAnimation(.easeInOut(duration: 2)) {
+                for card in viewModel.cards {
+                    dealt.insert(card.id) // дек исчезает когда все карты розданы, становится невидим потому что непрозрачность дефолтная
+                }
+            }
+        }
+    }
+    
+    private let deckWidth: CGFloat = 50 // будь внимателен если выбрал в frame конкретный размер а не относительный (не рекомендовано в общем случае)
     
     private func choose(_ card: Card) {
         withAnimation {
