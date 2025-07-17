@@ -24,7 +24,6 @@ struct CardView: View {
                     .overlay(cardContents.padding(Constants.Pie.inset))
                     .padding(Constants.inset)
                     .cardify(isFaceUp: card.isFaceUp)
-                    //.transition(.opacity) // непрозрачность это переход по умолчанию, который используется при удалении или добавлении представления в иерархию представлений
                     .transition(.scale)
             } else {
                 Color.clear

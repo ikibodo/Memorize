@@ -72,7 +72,7 @@ struct EmojiMemoryGameView: View {
         viewModel.cards.filter { !isDealt($0) }
     }
     
-    @Namespace private var dealingNamespace // создает пространство имен
+    @Namespace private var dealingNamespace 
     
     private var deck: some View {
         ZStack {
@@ -84,14 +84,17 @@ struct EmojiMemoryGameView: View {
         }
         .frame(width: deckWidth, height: deckWidth / aspectRatio)
         .onTapGesture {
-            // deal the cards
-            var delay: TimeInterval = 0
-            for card in viewModel.cards {
-                withAnimation(dealAnimation.delay(delay)) {
-                   _ = dealt.insert(card.id)
-                }
-                delay += dealInterval
+            deal()
+        }
+    }
+    
+    private func deal() {
+        var delay: TimeInterval = 0
+        for card in viewModel.cards {
+            withAnimation(dealAnimation.delay(delay)) {
+               _ = dealt.insert(card.id)
             }
+            delay += dealInterval
         }
     }
     
@@ -100,17 +103,16 @@ struct EmojiMemoryGameView: View {
             let scoreBeforeChoosing = viewModel.score
             viewModel.choose(card)
             let scoreChange = viewModel.score - scoreBeforeChoosing
-            lastScoreChange = (scoreChange, causedByCardId: card.id) // = lastScoreChange = (scoreChange, card.id)
+            lastScoreChange = (scoreChange, causedByCardId: card.id)
         }
     }
     
     
-    @State private var lastScoreChange = (0, causedByCardId: "")  // кортеж ака Tuples
+    @State private var lastScoreChange = (0, causedByCardId: "")
     
     private func scoreChange(causedBy card: Card) -> Int {
-        let (amount, id) = lastScoreChange // = let (amount, causedByCardId: id) = lastScoreChange
+        let (amount, id) = lastScoreChange
         return card.id == id ? amount : 0
-//        return lastScoreChange.1 == card.id ? lastScoreChange.0 : 0 //  lastScoreChange.1 и  lastScoreChange.0 соответствующие элементы кортежа второй и первый - такой синтаксис не рекомендован но возможен в ряде случаев 
     }
 }
 
