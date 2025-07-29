@@ -1,0 +1,19 @@
+Memorize — приложение-игра для тренировки памяти: пользователь ищет пары карточек с эмодзи. 
+
+Основано на материалах курса [Stanford CS193p: Developing Apps for iOS using SwiftUI (Spring 2023)](https://cs193p.stanford.edu/2023).
+
+## Описание
+
+- Разработано на SwiftUI с архитектурой MVVM
+- Используется ObservableObject и @Published для реактивного управления состоянием
+- Реализовано перемешивание карточек (shuffle) и интерактивные анимации: перевороты карточек (flip), бонусный таймер (bonus-pie), анимация счёта (score counter)
+
+
+## Благодарности
+
+Stanford University и профессору Paul Hegarty за открытый курс CS193p.
+
+
+ ## Лицензия
+
+Проект распространяется под лицензией [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru).
