@@ -22,33 +22,39 @@ struct Theme: Identifiable, Codable, Hashable {
             colorHex: 0xFFA500 // orange
         ),
         Theme(
-            name: "Flowers",
-            emojis: "🍀🍄🌺🌻🌹🥀🌷🌼🌸💐".emojiArray,
-            numberOfPairsOfCards: 8,
-            colorHex: 0xFF2D55 // pink
-        ),
-        Theme(
-            name: "Vehicles",
-            emojis: "🚗🚕🚙🚌🚎🏎🚓🚑🚒🚐🛻🚚🚛🚜✈️🚁🚂🚆🛵🏍🚲🛴🛺⛵️🛶🚤🛳".emojiArray,
-            numberOfPairsOfCards: 12,
-            colorHex: 0xFF3B30 // red
-        ),
-        Theme(
             name: "Faces",
             emojis: "😀😃😄😁😆😅😂🙂😉😊😇🥰😍🤩😘😗😙😚😋😛😝😜🤪🤔😐😑😶🙄😏😴".emojiArray,
             numberOfPairsOfCards: 12,
             colorHex: 0xFFCC00 // yellow
         ),
         Theme(
+            name: "Animals",
+            emojis: "🐶🐱🐭🐹🐰🦊🐻🐼🐨🐯🦁🐮🐷🐸🐵".emojiArray,
+            numberOfPairsOfCards: 8,
+            colorHex: 0x34C759 // green
+        ),
+        Theme(
+            name: "Flowers",
+            emojis: "🍀🍄🌺🌻🌹🥀🌷🌼🌸💐".emojiArray,
+            numberOfPairsOfCards: 10,
+            colorHex: 0xFF2D55 // pink
+        ),
+        Theme(
             name: "Food",
             emojis: "🍎🍏🍊🍋🍌🍉🍇🍓🍒🍑🥭🍍🥝🍅🍆🥕🌽🥔🥐🍞🧀🍔🍟🌭🍕🥪🌮🌯🥗🍣🍰🍩🍪🍫🍿".emojiArray,
             numberOfPairsOfCards: 12,
-            colorHex: 0x34C759 // green
+            colorHex: 0xFF3B30 // red
+        ),
+        Theme(
+            name: "Vehicles",
+            emojis: "🚗🚕🚙🚌🚎🏎🚓🚑🚒🚐🛻🚚🚛🚜✈️🚁🚂🚆🛵🏍🚲🛴🛺⛵️🛶🚤🛳".emojiArray,
+            numberOfPairsOfCards: 12,
+            colorHex: 0x8B4513 // brown
         ),
         Theme(
             name: "Weather",
             emojis: "☀️⛅️☁️🌦🌩🌨❄️⛄️💨🌪".emojiArray,
-            numberOfPairsOfCards: 8,
+            numberOfPairsOfCards: 10,
             colorHex: 0x000080 // navy
         )
     ]
