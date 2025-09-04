@@ -21,6 +21,7 @@ struct ThemeManagerView: View {
             }
             .navigationTitle("Themes")
         }
+        .tint(.primary)
     }
 }
 

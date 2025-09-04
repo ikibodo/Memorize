@@ -31,6 +31,22 @@ struct EmojiMemoryGameView: View {
             .font(.largeTitle)
         }
         .padding()
+        .navigationTitle(viewModel.theme.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                new
+            }
+        }
+        .tint(viewModel.theme.color)
+    }
+    
+    private var new: some View {
+        Button("New Game") {
+            withAnimation {
+                viewModel.newGame()
+            }
+        }
     }
     
     private var score: some View {
@@ -72,7 +88,7 @@ struct EmojiMemoryGameView: View {
         viewModel.cards.filter { !isDealt($0) }
     }
     
-    @Namespace private var dealingNamespace 
+    @Namespace private var dealingNamespace
     
     private var deck: some View {
         ZStack {
@@ -92,7 +108,7 @@ struct EmojiMemoryGameView: View {
         var delay: TimeInterval = 0
         for card in viewModel.cards {
             withAnimation(dealAnimation.delay(delay)) {
-               _ = dealt.insert(card.id)
+                _ = dealt.insert(card.id)
             }
             delay += dealInterval
         }
