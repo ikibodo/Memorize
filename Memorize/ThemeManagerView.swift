@@ -14,7 +14,7 @@ struct ThemeManagerView: View {
         NavigationStack {
             List(themeStore.themes) { theme in
                 NavigationLink {
-                    //                        GameContainerView(theme: theme)
+                    GameContainerView(theme: theme)
                 } label: {
                     ThemeRow(theme: theme)
                 }
@@ -46,17 +46,21 @@ struct ThemeRow: View {
 
 struct GameContainerView: View {
     let theme: Theme
-    private let vm: EmojiMemoryGame
-    //    init(theme: Theme) {
-    //        self.theme = theme;
-    //        self.vm = EmojiMemoryGame(theme: theme)
-    //    }
+    @StateObject private var vm: EmojiMemoryGame
+    
+    init(theme: Theme) {
+        self.theme = theme
+        _vm = StateObject(wrappedValue: EmojiMemoryGame(theme: theme))
+    }
+    
     var body: some View {
         EmojiMemoryGameView(viewModel: vm)
     }
 }
 
 #Preview {
-    ThemeManagerView()
-        .environmentObject(ThemeStore())
+    NavigationStack {
+        ThemeManagerView()
+            .environmentObject(ThemeStore())
+    }
 }

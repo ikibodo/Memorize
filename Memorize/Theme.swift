@@ -37,7 +37,7 @@ struct Theme: Identifiable, Codable, Hashable {
             name: "Flowers",
             emojis: "🍀🍄🌺🌻🌹🥀🌷🌼🌸💐".emojiArray,
             numberOfPairsOfCards: 10,
-            colorHex: 0xFF2D55 // pink
+            colorHex: 0xFFB6C1 // pink
         ),
         Theme(
             name: "Food",

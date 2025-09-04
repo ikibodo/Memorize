@@ -117,5 +117,7 @@ struct EmojiMemoryGameView: View {
 }
 
 #Preview {
-    EmojiMemoryGameView(viewModel: EmojiMemoryGame())
+    EmojiMemoryGameView(
+        viewModel: EmojiMemoryGame(theme: Theme.all[0])
+    )
 }
