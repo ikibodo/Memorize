@@ -20,3 +20,19 @@ extension Color {
                   opacity: alpha)
     }
 }
+
+extension Character {
+    var isEmoji: Bool {
+        if let firstScalar = unicodeScalars.first, firstScalar.properties.isEmoji {
+            return (firstScalar.value >= 0x238d) || unicodeScalars.count > 1
+        } else {
+            return false
+        }
+    }
+}
+
+extension Array where Element: Hashable {
+    func uniqued() -> [Element] {
+        var seen = Set<Element>(); return filter { seen.insert($0).inserted }
+    }
+}
