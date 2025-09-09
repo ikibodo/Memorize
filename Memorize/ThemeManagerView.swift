@@ -30,7 +30,8 @@ struct ThemeManagerView: View {
         List {
             ForEach(themeStore.themes) { theme in
                 row(for: theme)
-                    .swipeEdit { editingThemeID = theme.id }
+                    .swipeEdit {
+                        editingThemeID = theme.id }
                     .swipeDelete { themeStore.delete(theme) }
             }
             .onDelete(perform: themeStore.delete)
@@ -74,6 +75,40 @@ private struct MoreMenu: View {
     }
 }
 
+private struct ThemeRow: View {
+    let theme: Theme
+    var subtitle: String {
+        theme.numberOfPairsOfCards >= theme.emojis.count
+        ? "All of"
+        : "\(theme.numberOfPairsOfCards) pairs from"
+    }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(theme.name)
+                .font(.largeTitle)
+                .foregroundStyle(theme.color)
+            Text(subtitle + " " + theme.emojis.prefix(12).joined())
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+        }
+    }
+}
+
+private struct GameContainerView: View {
+    let theme: Theme
+    @StateObject private var vm: EmojiMemoryGame
+    
+    init(theme: Theme) {
+        self.theme = theme
+        _vm = StateObject(wrappedValue: EmojiMemoryGame(theme: theme))
+    }
+    
+    var body: some View {
+        EmojiMemoryGameView(viewModel: vm)
+    }
+}
+
 private extension View {
     func swipeEdit(_ action: @escaping () -> Void) -> some View {
         swipeActions(edge: .leading, allowsFullSwipe: false) {
@@ -82,7 +117,7 @@ private extension View {
     }
     func swipeDelete(_ action: @escaping () -> Void) -> some View {
         swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive, action: action) { Label("Delete", systemImage: "trash") }
+            Button(role: .destructive, action: action) { Label("Delete", systemImage: "trash") }.tint(.red)
         }
     }
 }
@@ -112,40 +147,6 @@ private extension View {
                 Text("Theme not found").padding()
             }
         }
-    }
-}
-
-struct ThemeRow: View {
-    let theme: Theme
-    var subtitle: String {
-        theme.numberOfPairsOfCards >= theme.emojis.count
-        ? "All of"
-        : "\(theme.numberOfPairsOfCards) pairs from"
-    }
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(theme.name)
-                .font(.largeTitle)
-                .foregroundStyle(theme.color)
-            Text(subtitle + " " + theme.emojis.prefix(12).joined())
-                .font(.callout)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-        }
-    }
-}
-
-struct GameContainerView: View {
-    let theme: Theme
-    @StateObject private var vm: EmojiMemoryGame
-    
-    init(theme: Theme) {
-        self.theme = theme
-        _vm = StateObject(wrappedValue: EmojiMemoryGame(theme: theme))
-    }
-    
-    var body: some View {
-        EmojiMemoryGameView(viewModel: vm)
     }
 }
 
