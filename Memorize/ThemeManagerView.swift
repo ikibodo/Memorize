@@ -20,7 +20,9 @@ struct ThemeManagerView: View {
                 .navigationTitle("Themes")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar { toolbarContent }
-                .resetAlert(isPresented: $showResetAlert) { themeStore.resetToDefaults() }
+                .resetAlert(isPresented: $showResetAlert) {
+                    themeStore.resetToDefaults()
+                }
                 .themeEditorSheet(editingThemeID: $editingThemeID, bindingProvider: themeStore.binding)
         }
         .tint(.primary)
@@ -28,7 +30,7 @@ struct ThemeManagerView: View {
     
     private var themeList: some View {
         List {
-            ForEach(themeStore.themes) { theme in
+            ForEach(themeStore.themes, id: \.id) { theme in
                 row(for: theme)
                     .swipeEdit {
                         editingThemeID = theme.id }
@@ -112,12 +114,18 @@ private struct GameContainerView: View {
 private extension View {
     func swipeEdit(_ action: @escaping () -> Void) -> some View {
         swipeActions(edge: .leading, allowsFullSwipe: false) {
-            Button(action: action) { Label("Edit", systemImage: "pencil") }.tint(.green)
+            Button(action: action) {
+                Label("Edit", systemImage: "pencil")
+            }
+            .tint(.green)
         }
     }
     func swipeDelete(_ action: @escaping () -> Void) -> some View {
         swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive, action: action) { Label("Delete", systemImage: "trash") }.tint(.red)
+            Button(role: .destructive, action: action) {
+                Label("Delete", systemImage: "trash")
+            }
+            .tint(.red)
         }
     }
 }
@@ -131,14 +139,18 @@ private extension View {
             Text("This will replace your current themes with the default set.")
         }
     }
-
+    
     func themeEditorSheet(
         editingThemeID: Binding<UUID?>,
         bindingProvider: @escaping (UUID) -> Binding<Theme>?
     ) -> some View {
         sheet(isPresented: Binding(
-            get: { editingThemeID.wrappedValue != nil },
-            set: { if !$0 { editingThemeID.wrappedValue = nil } }
+            get: {
+                editingThemeID.wrappedValue != nil
+            },
+            set: {
+                if !$0 { editingThemeID.wrappedValue = nil }
+            }
         )) {
             if let id = editingThemeID.wrappedValue,
                let binding = bindingProvider(id) {
