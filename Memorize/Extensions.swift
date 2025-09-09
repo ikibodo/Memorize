@@ -36,3 +36,7 @@ extension Array where Element: Hashable {
         var seen = Set<Element>(); return filter { seen.insert($0).inserted }
     }
 }
+
+extension String {
+    var emojiArray: [String] { map { String($0) } }
+}

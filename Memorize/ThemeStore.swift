@@ -8,13 +8,11 @@
 import SwiftUI
 
 final class ThemeStore: ObservableObject, Identifiable {
-//    @Published var themes: [Theme] = Theme.all
     @Published var themes: [Theme] = [] {
         didSet { save() }
     }
     
     let id = UUID()
-    
     private let key = "ThemeStore.themes"
     
     init() {
@@ -48,6 +46,7 @@ final class ThemeStore: ObservableObject, Identifiable {
 
     func resetToDefaults() {
         themes = Theme.all
+        save()
     }
     
     // MARK: Binding to element
@@ -69,6 +68,7 @@ final class ThemeStore: ObservableObject, Identifiable {
             UserDefaults.standard.set(data, forKey: key)
         }
     }
+    
     private func load() {
         if let data = UserDefaults.standard.data(forKey: key),
            let decoded = try? JSONDecoder().decode([Theme].self, from: data) {
