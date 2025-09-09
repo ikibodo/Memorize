@@ -45,6 +45,7 @@ struct ThemeEditor: View {
                         Text("\(theme.numberOfPairsOfCards) pairs")
                         Spacer()
                         Button("All Emojis") { theme.numberOfPairsOfCards = theme.emojis.count }
+                            .tint(.blue)
                     }
                 }
             }
@@ -60,17 +61,20 @@ struct ThemeEditor: View {
             }
         }
         .onAppear { focused = theme.name.isEmpty ? .name : .addEmojis }
-        .navigationTitle("Edit Theme")
     }
     
     private var removeEmojisGrid: some View {
         VStack(alignment: .trailing) {
-            Text("Tap to Remove Emojis").font(.caption).foregroundStyle(.secondary)
+            Text("Tap to remove emojis (at least 2 required)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 40))]) {
                 ForEach(theme.emojis, id: \.self) { e in
                     Text(e)
                         .font(.system(size: 40))
+                        .opacity(theme.emojis.count <= 2 ? 0.4 : 1)
                         .onTapGesture {
+                            guard theme.emojis.count > 2 else { return }
                             withAnimation {
                                 theme.emojis.removeAll { $0 == e }
                                 emojisToAdd.removeAll { String($0) == e }
