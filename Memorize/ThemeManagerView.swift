@@ -13,92 +13,106 @@ struct ThemeManagerView: View {
     @State private var editingThemeID: UUID?
     @State private var showResetAlert = false
     
+    
     var body: some View {
-           NavigationStack {
-               List {
-                   ForEach(themeStore.themes) { theme in
-                       NavigationLink {
-                           GameContainerView(theme: theme)
-                       } label: {
-                           ThemeRow(theme: theme)
-                       }
-                       .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                           Button {
-                               editingThemeID = theme.id
-                           } label: {
-                               Label("Edit", systemImage: "pencil")
-                           }
-                           .tint(.green)
-                       }
-                       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                           Button(role: .destructive) {
-                               themeStore.delete(theme)
-                           } label: {
-                               Label("Delete", systemImage: "trash")
-                           }
-                           .tint(.red)
-                       }
-                   }
-                   .onDelete(perform: themeStore.delete)
-                   .onMove(perform: themeStore.move)
-               }
-               .navigationTitle("Themes")
-               .navigationBarTitleDisplayMode(.inline)
-               .toolbar {
-                   ToolbarItem(placement: .topBarLeading) {
-                       EditButton()
-                   }
-                   ToolbarItem(placement: .topBarTrailing) {
-                       Menu {
-                           Button {
-                               themeStore.addNew()
-                           } label: {
-                               Label("New Theme", systemImage: "plus")
-                           }
-                           Button(role: .destructive) {
-                               showResetAlert = true
-                           } label: {
-                               Label("Reset to Defaults", systemImage: "arrow.clockwise")
-                           }
-                       } label: {
-                           Image(systemName: "ellipsis.circle")
-                       }
-                       .accessibilityLabel("More")
-                   }
-               }
-               .alert("Reset all themes to defaults?",
-                      isPresented: $showResetAlert) {
-                   Button("Cancel", role: .cancel) {}
-                   Button("Reset", role: .destructive) {
-                       themeStore.resetToDefaults()
-                   }
-               } message: {
-                   Text("This will replace your current themes with the default set.")
-               }
-               .sheet(isPresented: Binding(
-                   get: { editingThemeID != nil },
-                   set: { if !$0 { editingThemeID = nil } }
-               )) {
-                   if let id = editingThemeID,
-                      let binding = themeStore.binding(for: id) {
-                       ThemeEditor(theme: binding)
-                   } else {
-                       Text("Theme not found").padding()
-                   }
-               }
-           }
-           .tint(.primary)
-       }
+        NavigationStack {
+            themeList
+                .navigationTitle("Themes")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar { toolbarContent }
+                .resetAlert(isPresented: $showResetAlert) { themeStore.resetToDefaults() }
+                .themeEditorSheet(editingThemeID: $editingThemeID, bindingProvider: themeStore.binding)
+        }
+        .tint(.primary)
+    }
+    
+    private var themeList: some View {
+        List {
+            ForEach(themeStore.themes) { theme in
+                row(for: theme)
+                    .swipeEdit { editingThemeID = theme.id }
+                    .swipeDelete { themeStore.delete(theme) }
+            }
+            .onDelete(perform: themeStore.delete)
+            .onMove(perform: themeStore.move)
+        }
+    }
+    
+    @ViewBuilder
+    private func row(for theme: Theme) -> some View {
+        NavigationLink { GameContainerView(theme: theme) } label: { ThemeRow(theme: theme) }
+    }
+    
+    @ToolbarContentBuilder
+    private var toolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) { EditButton() }
+        ToolbarItem(placement: .topBarTrailing) {
+            MoreMenu(
+                onNew: { themeStore.addNew() },
+                onReset: { showResetAlert = true }
+            )
+        }
+    }
+}
 
-       private func toggleEditMode() {
-           withAnimation {
-               if editMode?.wrappedValue.isEditing == true {
-                   editMode?.wrappedValue = .inactive
-               } else {
-                   editMode?.wrappedValue = .active
-               }
-           }
-       }
+private struct MoreMenu: View {
+    let onNew: () -> Void
+    let onReset: () -> Void
+    
+    var body: some View {
+        Menu {
+            Button(action: onNew)  {
+                Label("New Theme", systemImage: "plus")
+            }
+            Button(role: .destructive, action: onReset) {
+                Label("Reset to Defaults", systemImage: "arrow.clockwise")
+            }
+        } label: {
+            Image(systemName: "ellipsis.circle")
+        }
+        .accessibilityLabel("More")
+    }
+}
+
+private extension View {
+    func swipeEdit(_ action: @escaping () -> Void) -> some View {
+        swipeActions(edge: .leading, allowsFullSwipe: false) {
+            Button(action: action) { Label("Edit", systemImage: "pencil") }.tint(.green)
+        }
+    }
+    func swipeDelete(_ action: @escaping () -> Void) -> some View {
+        swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive, action: action) { Label("Delete", systemImage: "trash") }
+        }
+    }
+}
+
+private extension View {
+    func resetAlert(isPresented: Binding<Bool>, onConfirm: @escaping () -> Void) -> some View {
+        alert("Reset all themes to defaults?", isPresented: isPresented) {
+            Button("Cancel", role: .cancel) {}
+            Button("Reset", role: .destructive, action: onConfirm)
+        } message: {
+            Text("This will replace your current themes with the default set.")
+        }
+    }
+
+    func themeEditorSheet(
+        editingThemeID: Binding<UUID?>,
+        bindingProvider: @escaping (UUID) -> Binding<Theme>?
+    ) -> some View {
+        sheet(isPresented: Binding(
+            get: { editingThemeID.wrappedValue != nil },
+            set: { if !$0 { editingThemeID.wrappedValue = nil } }
+        )) {
+            if let id = editingThemeID.wrappedValue,
+               let binding = bindingProvider(id) {
+                ThemeEditor(theme: binding)
+            } else {
+                Text("Theme not found").padding()
+            }
+        }
+    }
 }
 
 struct ThemeRow: View {
