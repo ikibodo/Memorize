@@ -20,15 +20,16 @@ final class ThemeStore: ObservableObject, Identifiable {
     }
     
     // MARK: CRUD
-    func addNew() {
-        themes.insert(
-            Theme(
-                name: "New Theme",
-                emojis: ["👋","😃"],
-                numberOfPairsOfCards: 2,
-                colorHex: 0x007AFF),
-            at: 0
+    @discardableResult
+    func addNew() -> UUID {
+        let t = Theme(
+            name: "New Theme",
+            emojis: ["👋","😃"],
+            numberOfPairsOfCards: 2,
+            colorHex: 0x007AFF
         )
+        themes.insert(t, at: 0)
+        return t.id
     }
     
     func delete(at offsets: IndexSet) {

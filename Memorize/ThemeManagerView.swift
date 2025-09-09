@@ -51,7 +51,7 @@ struct ThemeManagerView: View {
         ToolbarItem(placement: .topBarLeading) { EditButton() }
         ToolbarItem(placement: .topBarTrailing) {
             MoreMenu(
-                onNew: { themeStore.addNew() },
+                onNew: { editingThemeID = themeStore.addNew() },
                 onReset: { showResetAlert = true }
             )
         }
