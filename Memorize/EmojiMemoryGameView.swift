@@ -12,7 +12,7 @@ struct EmojiMemoryGameView: View {
     
     @ObservedObject var viewModel: EmojiMemoryGame
     
-    private let aspectRatio: CGFloat = 2/3
+    private let aspectRatio: CGFloat = 2.0/3.0
     private let spacing: CGFloat = 4
     private let dealAnimation: Animation = .easeInOut(duration: 0.5)
     private let dealInterval: TimeInterval = 0.15

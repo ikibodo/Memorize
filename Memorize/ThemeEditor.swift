@@ -60,7 +60,11 @@ struct ThemeEditor: View {
                 removeEmojisGrid
             }
         }
-        .onAppear { focused = theme.name.isEmpty ? .name : .addEmojis }
+        .onAppear {
+            DispatchQueue.main.async {
+                focused = theme.name.isEmpty ? .name : .addEmojis
+            }
+        }
     }
     
     private var removeEmojisGrid: some View {

@@ -42,15 +42,15 @@ struct CardView: View {
     }
     
     private struct Constants {
-        static let inset: CGFloat = 5
+        static let inset: CGFloat = 5.0
         struct FontSize {
-            static let largest: CGFloat = 200
-            static let smallest: CGFloat = 10
+            static let largest: CGFloat = 200.0
+            static let smallest: CGFloat = 10.0
             static let scaleFactor = smallest / largest
         }
         struct Pie {
             static let opacity: CGFloat = 0.5
-            static let inset: CGFloat = 5
+            static let inset: CGFloat = 5.0
         }
     }
 }
@@ -65,7 +65,7 @@ extension Animation {
     VStack {
         HStack {
             CardView(CardView.Card(isFaceUp: true, content: "X", id: "test1"))
-                .aspectRatio(4/3, contentMode: .fit)
+                .aspectRatio(4.0/3.0, contentMode: .fit)
             CardView(CardView.Card(content: "X", id: "test1"))
         }
         HStack {
