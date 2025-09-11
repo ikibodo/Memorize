@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ThemeManagerView: View {
     @EnvironmentObject var themeStore: ThemeStore
-    @Environment(\.editMode) private var editMode
+    @State private var editMode: EditMode = .inactive
     @State private var editingThemeID: UUID?
     @State private var showResetAlert = false
     
@@ -20,8 +20,13 @@ struct ThemeManagerView: View {
                 .navigationTitle("Themes")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar { toolbarContent }
+                .environment(\.editMode, $editMode)
                 .resetAlert(isPresented: $showResetAlert) {
-                    themeStore.resetToDefaults()
+                    withAnimation(nil) {
+                        editMode = .inactive
+                        editingThemeID = nil
+                        themeStore.resetToDefaults()
+                    }
                 }
                 .themeEditorSheet(editingThemeID: $editingThemeID, bindingProvider: themeStore.binding)
         }
@@ -38,6 +43,9 @@ struct ThemeManagerView: View {
             }
             .onDelete(perform: themeStore.delete)
             .onMove(perform: themeStore.move)
+            .transaction { t in
+                if editMode == .active { t.animation = nil }
+            }
         }
     }
     
