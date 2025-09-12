@@ -10,39 +10,41 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject { // ViewModel
     typealias Card = MemoryGame<String>.Card
     
-    private static let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
+    let theme: Theme
     
-    private static func createMemoryGame() -> MemoryGame<String> {
-        return MemoryGame(numberOfPairsOfCards: 7) { pairIndex in
-            if emojis.indices.contains(pairIndex) {
-                return emojis[pairIndex]
-            } else {
-                return "⁉️"
-            }
+    @Published private var game: MemoryGame<String>
+    
+    init(theme: Theme) {
+        self.theme = theme
+        self.game = EmojiMemoryGame.makeGame(with: theme)
+    }
+    
+    private static func makeGame(with theme: Theme) -> MemoryGame<String> {
+        let emojis = theme.emojis.shuffled()
+        let pairCount = min(theme.numberOfPairsOfCards, emojis.count)
+        return MemoryGame(numberOfPairsOfCards: pairCount) { index in
+            emojis[index]
         }
     }
     
-    @Published private var model = createMemoryGame() // не называй model и viewModel так в лоб в реальном проекте, нейминг должне быть осмысленным, например тут game
-    
-    var cards: Array<Card> {
-        model.cards
+    var cards: [Card] {
+        game.cards
     }
-    
-    var color: Color {
-        .orange
-    }
-    
     var score: Int {
-        model.score
+        game.score
+    }
+    var color: Color {
+        theme.color
     }
     
     // MARK: - Intents
-    
     func shuffle() {
-        model.shuffle()
+        game.shuffle()
     }
-    
     func choose(_ card: Card) {
-        model.choose(card)
+        game.choose(card)
+    }
+    func newGame() {
+        game = EmojiMemoryGame.makeGame(with: theme)
     }
 }
