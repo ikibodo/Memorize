@@ -26,6 +26,7 @@
 - Набор предустановленных тем (Halloween, Cats, Animals и др.), определённых через статические структуры.
 - Уникальный дизайн иконки приложения.
 
+## [Watch the video](https://youtu.be/fa7Pzy5Zq-Y)
 <img width="200" height="400" alt="Image" src="https://github.com/user-attachments/assets/0b7b1fd2-5ed5-47ee-b4ae-d07bb36eabe1" />
 
 <img width="200" height="440" alt="Image" src="https://github.com/user-attachments/assets/a668aa98-245d-4dfb-b729-99634e2f3c5f" />
