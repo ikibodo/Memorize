@@ -4,6 +4,7 @@
 
 A memory training game app: the user matches pairs of emoji cards.
 
+
 Based on the materials of the course [Stanford CS193p: Developing Apps for iOS using SwiftUI (Spring 2023)](https://cs193p.stanford.edu/2023).
 
 ## Description
@@ -26,6 +27,7 @@ The app is a memory training game where the player matches pairs of emoji cards.
 - Preloaded themes (Halloween, Cats, Animals, etc.) defined in static Swift structures.
 - Custom app icon created specifically for the project.
 
+## [Watch the video](https://youtu.be/fa7Pzy5Zq-Y)
 <img width="200" height="400" alt="Image" src="https://github.com/user-attachments/assets/0b7b1fd2-5ed5-47ee-b4ae-d07bb36eabe1" />
 
 <img width="200" height="440" alt="Image" src="https://github.com/user-attachments/assets/a668aa98-245d-4dfb-b729-99634e2f3c5f" />
