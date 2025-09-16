@@ -17,7 +17,7 @@ struct Cardify: ViewModifier, Animatable {
     }
     
     var rotation: Double
-//    var animatableData: EmptyAnimatableData
+
     var animatableData: Double {
         get { rotation }
         set { rotation = newValue }
