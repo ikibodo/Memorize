@@ -27,12 +27,8 @@ The app is a memory training game where the player matches pairs of emoji cards.
 - Preloaded themes (Halloween, Cats, Animals, etc.) defined in static Swift structures.
 - Custom app icon created specifically for the project.
 
-## [Watch the video](https://youtu.be/fa7Pzy5Zq-Y)
-<img width="200" height="400" alt="Image" src="https://github.com/user-attachments/assets/0b7b1fd2-5ed5-47ee-b4ae-d07bb36eabe1" />
-
-<img width="200" height="440" alt="Image" src="https://github.com/user-attachments/assets/a668aa98-245d-4dfb-b729-99634e2f3c5f" />
-
-<img width="200" height="403" alt="Image" src="https://github.com/user-attachments/assets/725db8bc-80b0-4fe9-a999-dd9b2310682a" />
+## [📹  Watch the video](https://youtu.be/fa7Pzy5Zq-Y)
+<img width="647" height="446" alt="Image" src="https://github.com/user-attachments/assets/bcf796e7-2260-4086-aac3-3bc1f66526c6" />
 
 ## Acknowledgments
 
